@@ -1,0 +1,12 @@
+Blazor 是由微软开发的一种用于构建交互式 Web 应用的框架。它允许开发者使用 C# 而不是 JavaScript 来编写客户端代码。Blazor 依赖于 WebAssembly 技术，可以在浏览器中运行 .NET 代码，从而实现与传统 JavaScript 框架类似的功能。
+
+Blazor 框架主要有以下几个关键特点：
+
+WebAssembly 支持：Blazor 使用 WebAssembly 技术，将 .NET 代码编译成可以在浏览器中运行的格式。这使得 C# 代码可以直接在客户端执行，而不需要依赖 JavaScript。
+组件模型：Blazor 提供了一个组件模型，允许开发者构建可复用的 UI 组件。这些组件可以嵌套、参数化，并且能够响应数据变化。
+单页面应用程序 (SPA)：Blazor 支持构建单页面应用程序，提供路由功能，使得页面之间的导航无刷新。
+与 .NET 集成：Blazor 与 .NET 平台紧密集成，可以使用 .NET 库和工具，方便复用现有代码和技能。
+两种托管模型：
+Blazor WebAssembly：这种模式下，应用完全在客户端运行，所有的 .NET 代码和依赖项都通过 WebAssembly 下载到浏览器并在客户端执行。
+Blazor Server：这种模式下，应用在服务器端运行，客户端通过 SignalR 连接与服务器通讯，UI 更新通过网络传输，提供快速的响应能力，适用于对性能要求较高的场景。
+Blazor 框架的优势包括代码复用、与现有 .NET 技术栈的无缝集成以及对开发人员友好的工具支持（如 Visual Studio）。它为习惯使用 C# 的开发人员提供了在 Web 开发中使用现有技能的机会，减少了对 JavaScript 的依赖。

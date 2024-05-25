@@ -1,0 +1,59 @@
+﻿@using System.ComponentModel
+@using BlazorChatGptOutPutDemo.Models
+@implements IDisposable
+
+
+@if (Message == null)
+{
+    <p>something error!</p>
+}
+else
+{
+    @if (Message.IsLoading)
+    {
+        <p>loading......</p>
+    }
+    else
+    {
+        <div>
+            <span>@Message.Content</span>
+        </div>
+    }
+}
+
+
+
+@code {
+
+    [Parameter]
+    public Message Message { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            if (Message != null)
+            {
+                Message.PropertyChanged += OnPropertyChanged();
+            }
+        }
+
+    }
+
+    private PropertyChangedEventHandler OnPropertyChanged()
+    {
+        return async (sender, e) => { await InvokeAsync(StateHasChanged); };
+    }
+
+    public void Dispose()
+    {
+        if (Message != null)
+        {
+            Message.PropertyChanged -= OnPropertyChanged();
+        }
+    }
+
+}

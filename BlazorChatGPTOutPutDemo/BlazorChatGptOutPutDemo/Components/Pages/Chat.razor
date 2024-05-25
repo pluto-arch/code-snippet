@@ -1,0 +1,83 @@
+﻿@page "/chat"
+@using BlazorChatGptOutPutDemo.Models
+@using BlazorChatGptOutPutDemo.Components.ChatBox
+@inject ChatChannel _channel;
+@implements IDisposable;
+
+
+
+<h3>Chat</h3>
+
+<ul>
+    @foreach (var msg in _messages)
+    {
+        <li>
+            <MessageBox Message="msg"/>
+        </li>
+    }
+</ul>
+
+<input @bind="newQuestion" />
+<button @onclick="sendMessage">Send</button>
+
+@code {
+    private readonly List<Message> _messages = new();
+
+    private CancellationTokenSource tokenSource;
+
+    private string newQuestion;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            _channel.OnMessageReceived += OnMessageReceived;
+        }
+    }
+
+    private async Task OnMessageReceived(string questionId, string content)
+    {
+        var mes = _messages.FirstOrDefault(x => x.Id == questionId);
+        if (mes != null)
+        {
+            mes.IsLoading = false;
+            foreach (var @char in content)
+            {
+                await Task.Delay(Random.Shared.Next(10, 100));
+                mes.Content += @char;
+            }
+        }
+    }
+
+    private void sendMessage()
+    {
+        if (!string.IsNullOrEmpty(newQuestion))
+        {
+            var sender = new Message
+                {
+                    Content = newQuestion,
+                    IsLoading = false
+                };
+            _messages.Add(sender);
+
+            var ask = new Message
+                {
+                    IsLoading = true
+                };
+            tokenSource = new CancellationTokenSource();
+            _messages.Add(ask);
+            _channel.SendMessage(ask.Id, newQuestion, tokenSource.Token);
+        }
+    }
+
+
+    public void Dispose()
+    {
+        tokenSource?.Cancel(false);
+        tokenSource?.Dispose();
+        _channel.OnMessageReceived -= OnMessageReceived;
+    }
+}
