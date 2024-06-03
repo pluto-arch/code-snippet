@@ -8,7 +8,7 @@ const config = {
 
 export const kc = new Keycloak(config)
 
-kc.init({ onLoad: 'login-required' })
+kc.init({ onLoad: 'check-sso' })
 	.then((authenticated) => {
 		if (authenticated) {
 			console.log('User is authenticated')
