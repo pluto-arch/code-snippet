@@ -6,13 +6,13 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/signback',
+    path: '/',
     name: 'home',
     component: HomeView,
   },
   {
-    path: '/',
-    name: 'home',
+    path: '/kccallback',
+    name: 'kc',
     component: HomeView,
   },
   {
@@ -24,10 +24,19 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
   },
+  {
+    name: '404',
+    path: '/404',
+    component: () => import('@/views/NotFoundView.vue'),
+  },
+  // {
+  //   path: '*',
+  //   redirect: '/404',
+  // },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })

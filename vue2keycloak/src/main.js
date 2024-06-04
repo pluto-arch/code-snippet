@@ -3,10 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import { initKc } from './utils/kc'
+
 Vue.config.productionTip = false
 
-new Vue({
+var vue = new Vue({
   router,
   store,
   render: (h) => h(App),
-}).$mount('#app')
+})
+
+initKc(() => {
+  vue.$mount('#app')
+  vue.$router.push('/')
+})
